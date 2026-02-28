@@ -1,0 +1,14 @@
+.liquid-glass {
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
+              url('https://example.com/path-to-image.jpg');
+  background-blend-mode: overlay;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+  animation: liquid 3s infinite ease-in-out;
+}
+
+@keyframes liquid {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
