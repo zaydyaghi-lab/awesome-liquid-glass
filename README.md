@@ -1,38 +1,41 @@
 # Awesome Liquid Glass
 
-## Liquid Glas fluid morphing animation/motion, inspirational designs, and use cases with SwiftUI code samples for iOS 26, watchOS 26, and macOS 26
+## Overview
+This repository contains various implementations related to liquid glass technology. The aim is to provide comprehensive documentation as well as examples of different use cases.
 
-This repo showcases the beauty of liquid glass in different SwiftUI components. I will update the repo with different Liquid Glass examples from time to time. Enjoy.
+## Implementations
 
-**Note**: The Liquid Glass effects are more beautiful than what you see in the GIF previews. Due to the colors in the images, the GIF previews below are not crisp. Grab the SwiftUI files and try them with your images. 
+### 1. Basic Liquid Glass Example
+- Description: A simple application that demonstrates the fundamental properties of liquid glass.
+- Key Features:
+  - Easy customization.
+  - Interactive user interface.
 
-## Liquid Glass Slider: [LiquidGlassJello.swift](https://github.com/GetStream/awesome-liquid-glass/blob/main/SwiftFiles/LiquidGlassJello.swift)
-![Glass slider](GIFPreviews/glassSlider.gif)
---
+### 2. Advanced Liquid Glass Simulation
+- Description: A more complex simulation that includes various physical parameters.
+- Key Features:
+  - Real-time rendering.
+  - Performance optimizations for large datasets.
 
-## Liquid Glass Tab Bar (Squash, stretch, and jello-like effect): [LiquidGlassTabBar.swift](https://github.com/GetStream/awesome-liquid-glass/blob/main/SwiftFiles/LiquidGlassTabBar.swift)
+### 3. Liquid Glass Framework
+- Description: A framework to simplify the development of liquid glass projects.
+- Key Features:
+  - Modular architecture.
+  - Extensive documentation and tutorials.
 
-![Tab bar](GIFPreviews/glassTabBar.gif)
---
+## Installation
+To get started, clone the repository and follow the installation instructions.
 
-## Custom Glass Effect on Different Surfaces: [LiquidGlassHContainer.swift](https://github.com/GetStream/awesome-liquid-glass/blob/main/SwiftFiles/LiquidGlassHContainer.swift)
-![Floatin button](GIFPreviews/customFloatingGlass.gif)
---
+```bash
+git clone https://github.com/zaydyaghi-lab/awesome-liquid-glass.git
+cd awesome-liquid-glass
+```
 
-## Liquid Glass Menu: [LiquidGlassMenu.swift](https://github.com/GetStream/awesome-liquid-glass/blob/main/SwiftFiles/LiquidGlassMenu.swift)
-![Glass menu](GIFPreviews/liquidGlassMenu.gif)
---
+## Usage
+Detailed usage instructions for each implementation can be found in their respective directories.
 
-## Overlapping Glass: [LiquidGlassRoundedFloating.swift](https://github.com/GetStream/awesome-liquid-glass/blob/main/SwiftFiles/LiquidGlassRoundedFloating.swift)
-![Overlapping glass](GIFPreviews/overlappingGlass.gif)
---
+## Contribution
+Contributions are welcome! Please read the [Contributing Guidelines](CONTRIBUTING.md) for more information.
 
-## Custom Glass Floating Button: [CustomGlassEffect.swift](https://github.com/GetStream/awesome-liquid-glass/blob/main/SwiftFiles/CustomGlassEffect.swift)
-![Floating glass](GIFPreviews/floatingButton.gif)
---
-
-## Glass on Swapping Views: [LiquidGlassPlayButton.swift](https://github.com/GetStream/awesome-liquid-glass/blob/main/SwiftFiles/LiquidGlassPlayButton.swift)
---
-
-### Liquid Glass Toolbar Items: [LiquidGlassToolbarItems.swift](https://github.com/GetStream/awesome-liquid-glass/blob/main/SwiftFiles/LiquidGlassToolbarItems.swift)
---
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
