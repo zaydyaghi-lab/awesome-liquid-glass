@@ -1,23 +1,32 @@
-// ui.ts
+// ui.ts — Liquid Glass Figma Plugin UI logic
 
-// This file contains the UI logic for the Figma plugin.
-
-// Function to initialize the UI
-function initUI() {
-    const button = document.getElementById('myButton');
-    button.onclick = () => {
-        // Handle button click event
-        console.log('Button clicked!');
-    };
+/**
+ * Sends a create-component message to plugin.ts for the given preset.
+ */
+function sendPreset(preset: string): void {
+  parent.postMessage(
+    { pluginMessage: { type: 'create-component', preset } },
+    '*'
+  );
 }
 
-// Function to show a message in the UI
-function showMessage(message: string) {
-    const messageElement = document.getElementById('message');
-    messageElement.textContent = message;
+/**
+ * Show a brief success toast notification in the UI.
+ */
+function showToast(): void {
+  const toast = document.getElementById('toast') as HTMLElement;
+  toast.classList.remove('show');
+  void toast.offsetWidth; // force reflow to restart animation
+  toast.classList.add('show');
 }
 
-// Initialize UI when the document is ready
-document.addEventListener('DOMContentLoaded', () => {
-    initUI();
+// Attach click handlers to all preset cards
+document.querySelectorAll<HTMLElement>('.card').forEach((card) => {
+  card.addEventListener('click', () => {
+    const preset = card.getAttribute('data-preset');
+    if (preset) {
+      sendPreset(preset);
+      showToast();
+    }
+  });
 });

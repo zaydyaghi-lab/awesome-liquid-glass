@@ -1,1 +1,12 @@
-{\n  "name": "Awesome Liquid Glass",\n  "id": "com.zaydyaghi-lab.awesome-liquid-glass",\n  "api": "1.0.0",\n  "main": "code.js",\n  "editorType": ["figma"],\n  "homepage": "https://link-to-your-homepage.com",\n  "description": "A description of your plugin.",\n  "icon": "icon.png",\n  "version": "0.0.1",\n  "permissions": [\n    "currentUser"\n  ]\n}
+{
+  "name": "Awesome Liquid Glass",
+  "id": "com.zaydyaghi-lab.awesome-liquid-glass",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"],
+  "description": "Generate pixel-perfect Liquid Glass UI components inspired by iOS 26 / SwiftUI glass effects. Includes presets for play buttons, toolbars, tab bars, floating action bars, and more.",
+  "version": "1.0.0",
+  "permissions": [
+    "currentUser"
+  ]
+}
