@@ -1,16 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UI for Figma Plugin</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        h1 { color: #333; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awesome Liquid Glass</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+      padding: 14px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .header-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.05));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      border: 1px solid rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+    .header-text h1 { font-size: 13px; font-weight: 600; letter-spacing: -0.3px; }
+    .header-text p  { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 13px 11px;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s, transform 0.1s;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+      pointer-events: none;
+    }
+    .card:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.18); transform: translateY(-1px); }
+    .card:active { transform: translateY(0); background: rgba(255,255,255,0.14); }
+    .card.wide { grid-column: span 2; display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
+    .card.wide .card-icon { margin-bottom: 0; flex-shrink: 0; }
+    .card.wide .card-body { flex: 1; }
+    .card-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      margin-bottom: 9px;
+      border: 1px solid rgba(255,255,255,0.13);
+    }
+    .card-title { font-size: 11.5px; font-weight: 600; margin-bottom: 3px; letter-spacing: -0.2px; }
+    .card-desc  { font-size: 10px; color: rgba(255,255,255,0.42); line-height: 1.4; }
+    .footer { margin-top: 14px; text-align: center; font-size: 10px; color: rgba(255,255,255,0.28); }
+    .toast {
+      display: none;
+      position: fixed; bottom: 12px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(52,199,89,0.92);
+      color: #fff; padding: 7px 16px;
+      border-radius: 20px; font-size: 11.5px; font-weight: 500;
+      white-space: nowrap; z-index: 999;
+    }
+    .toast.show { display: block; animation: toastFade 2s ease forwards; }
+    @keyframes toastFade {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(8px); }
+      12%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+      75%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+    }
+  </style>
 </head>
 <body>
-    <h1>Figma Plugin UI</h1>
-    <p>This is the HTML UI for the Figma plugin.</p>
+  <div class="header">
+    <div class="header-icon">&#10022;</div>
+    <div class="header-text">
+      <h1>Liquid Glass Components</h1>
+      <p>iOS 26 / SwiftUI glass effects</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card" data-preset="play-button">
+      <div class="card-icon">&#9654;</div>
+      <div class="card-title">Play Button</div>
+      <div class="card-desc">Circular glass button with play icon</div>
+    </div>
+
+    <div class="card" data-preset="toolbar">
+      <div class="card-icon">&#8801;</div>
+      <div class="card-title">Toolbar</div>
+      <div class="card-desc">Glass nav bar with back, forward &amp; close</div>
+    </div>
+
+    <div class="card" data-preset="tab-bar">
+      <div class="card-icon">&#9634;</div>
+      <div class="card-title">Tab Bar</div>
+      <div class="card-desc">Bottom tabs with badge support</div>
+    </div>
+
+    <div class="card" data-preset="floating-bar">
+      <div class="card-icon">&#8853;</div>
+      <div class="card-title">Floating Bar</div>
+      <div class="card-desc">Action bar with floating compose button</div>
+    </div>
+
+    <div class="card" data-preset="h-container">
+      <div class="card-icon">&#8596;</div>
+      <div class="card-title">H Container</div>
+      <div class="card-desc">Full-width glass navigation container</div>
+    </div>
+
+    <div class="card" data-preset="menu">
+      <div class="card-icon">&#9776;</div>
+      <div class="card-title">Menu</div>
+      <div class="card-desc">Glass dropdown with icon-labeled items</div>
+    </div>
+
+    <div class="card wide" data-preset="glass-card">
+      <div class="card-icon">&#9647;</div>
+      <div class="card-body">
+        <div class="card-title">Glass Card</div>
+        <div class="card-desc">Standalone glass panel with circular action button</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Click any preset to insert it onto the canvas</div>
+  <div class="toast" id="toast">&#10003; Component inserted!</div>
+
+  <script>
+    document.querySelectorAll('.card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var preset = card.getAttribute('data-preset');
+        parent.postMessage({ pluginMessage: { type: 'create-component', preset: preset } }, '*');
+        var toast = document.getElementById('toast');
+        toast.classList.remove('show');
+        void toast.offsetWidth;
+        toast.classList.add('show');
+      });
+    });
+  </script>
 </body>
 </html>
