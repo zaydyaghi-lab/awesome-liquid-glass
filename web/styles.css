@@ -1,14 +1,425 @@
-.liquid-glass {
-  background: linear-gradient(150deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
-              url('https://example.com/path-to-image.jpg');
-  background-blend-mode: overlay;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
-  animation: liquid 3s infinite ease-in-out;
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Root & body ────────────────────────────────────────────── */
+:root {
+  --blur: 5px;
+  --fill: rgba(255,255,255,0.12);
+  --border: rgba(255,255,255,0.25);
+  --shadow-outer: 0 0 30px rgba(0,0,0,0.35);
+  --shadow-highlight: 0 8px 20px rgba(255,255,255,0.25);
+  --radius: 20px;
 }
 
-@keyframes liquid {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #0d1b2a 0%, #1a2a4a 40%, #0f2030 100%);
+  min-height: 100vh;
+  color: #fff;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 40px;
+  background: rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.site-header h1 span { opacity: 0.5; font-weight: 400; }
+
+.header-links {
+  display: flex;
+  gap: 16px;
+}
+.header-links a {
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+.header-links a:hover { color: #fff; }
+
+/* ── Controls bar ───────────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 40px;
+  background: rgba(0,0,0,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-wrap: wrap;
+}
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+}
+.control-group label { white-space: nowrap; }
+.control-group input[type=range] {
+  width: 120px;
+  accent-color: rgba(255,255,255,0.7);
+}
+.blur-val { font-variant-numeric: tabular-nums; color: #fff; min-width: 30px; }
+
+.pill-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 4px;
+}
+.pill-tab {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  border-radius: 7px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.pill-tab.active {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+/* ── Stage (backdrop for components) ───────────────────────── */
+.stage {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Colourful background blobs so backdrop-filter is visible */
+.stage::before, .stage::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+.stage::before {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #4a90d9 0%, #1e5fa8 60%, transparent 100%);
+  top: -100px; left: -100px;
+}
+.stage::after {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #9b59b6 0%, #5b2a8a 60%, transparent 100%);
+  bottom: -80px; right: -80px;
+}
+
+.demo-area {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ── The liquid-glass mixin (applied to every component) ─── */
+.glass {
+  background: var(--fill);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-outer), var(--shadow-highlight),
+              inset 0 1px 0 rgba(255,255,255,0.3);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  transition: box-shadow 0.3s, backdrop-filter 0.3s;
+}
+
+/* ── Play Button ────────────────────────────────────────────── */
+.play-button-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.play-btn {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  color: #fff;
+  transition: transform 0.15s;
+}
+.play-btn:hover  { transform: scale(1.06); }
+.play-btn:active { transform: scale(0.96); }
+
+/* ── Toolbar ────────────────────────────────────────────────── */
+.toolbar {
+  width: 100%;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 8px;
+}
+.toolbar-start { display: flex; gap: 8px; }
+.toolbar-end   { margin-left: auto; }
+.icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.icon-btn:hover { background: rgba(255,255,255,0.22); }
+.toolbar-title { flex: 1; text-align: center; font-size: 15px; font-weight: 600; }
+
+/* ── Tab Bar ─────────────────────────────────────────────────── */
+.tab-bar {
+  width: 100%;
+  display: flex;
+  border-radius: 0;
+  padding: 8px 0 2px;
+}
+.tab-item {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 3px;
+  padding: 6px 0;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  font-size: 10px;
+  position: relative;
+  transition: color 0.15s;
+}
+.tab-item.active { color: #fff; }
+.tab-icon { font-size: 22px; }
+.tab-badge {
+  position: absolute;
+  top: 4px;
+  right: calc(50% - 22px);
+  background: #ff3b30;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* ── Floating Bar ───────────────────────────────────────────── */
+.floating-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+}
+.action-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 32px;
+  flex: 1;
+  justify-content: space-around;
+}
+.action-bar .icon-btn { font-size: 20px; }
+.fab {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: none;
+  font-size: 22px;
+  color: #fff;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.fab:hover { transform: scale(1.06); }
+
+/* ── H Container ────────────────────────────────────────────── */
+.h-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 20px 32px;
+  border-radius: var(--radius);
+}
+.h-container .icon-btn { font-size: 22px; }
+.h-title { flex: 1; text-align: center; font-size: 18px; font-weight: 600; }
+
+/* ── Menu ───────────────────────────────────────────────────── */
+.menu-wrap { width: 100%; max-width: 260px; }
+.menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.12s;
+  border: none;
+  background: transparent;
+  color: #fff;
+  width: 100%;
+  text-align: left;
+}
+.menu-item:hover { background: rgba(255,255,255,0.08); }
+.menu-item + .menu-item { border-top: 1px solid rgba(255,255,255,0.06); }
+.menu-icon { font-size: 18px; opacity: 0.8; width: 24px; text-align: center; }
+
+/* ── Glass Card ─────────────────────────────────────────────── */
+.glass-card {
+  width: 100%; max-width: 320px;
+  padding: 28px;
+  border-radius: var(--radius);
+  position: relative;
+}
+.glass-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.glass-card p  { font-size: 14px; opacity: 0.65; line-height: 1.5; margin-bottom: 20px; }
+.card-fab {
+  position: absolute;
+  bottom: -22px; right: 22px;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: none;
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s;
+}
+.card-fab:hover { transform: scale(1.08); }
+
+/* ── Code panel ─────────────────────────────────────────────── */
+.code-panel {
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 20px 24px;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  z-index: 1;
+  margin: 0 auto;
+}
+.code-panel h3 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.45;
+  margin-bottom: 12px;
+}
+.code-panel pre {
+  font-family: "SF Mono", "Fira Code", monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.code-panel .copy-btn {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 7px;
+  color: #fff;
+  font-size: 12px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.code-panel .copy-btn:hover { background: rgba(255,255,255,0.18); }
+.code-panel .copy-btn.copied { background: rgba(52,199,89,0.3); border-color: rgba(52,199,89,0.5); }
+
+/* ── Nav pills (component selector) ───────────────────────── */
+.component-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 20px 40px 0;
+  justify-content: center;
+}
+.component-nav button {
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.65);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.component-nav button:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+.component-nav button.active {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.35);
+  color: #fff;
+}
+
+/* ── Toast ──────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: rgba(52,199,89,0.92);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 999;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .site-header { padding: 16px 20px; }
+  .controls     { padding: 12px 20px; gap: 16px; }
+  .stage        { padding: 40px 20px; }
+  .component-nav { padding: 16px 20px 0; }
 }

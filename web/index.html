@@ -1,37 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liquid Glass Demo</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #e0f7fa;
-        }
-        .liquid-glass {
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 24px;
-            font-family: Arial, sans-serif;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liquid Glass — Interactive Demo</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="liquid-glass">
-        Liquid Glass Effect
+
+  <!-- ── Header ──────────────────────────────────────────────── -->
+  <header class="site-header">
+    <h1>✦ Liquid Glass <span>Demo</span></h1>
+    <nav class="header-links">
+      <a href="https://github.com/zaydyaghi-lab/awesome-liquid-glass" target="_blank">GitHub</a>
+      <a href="../figma-plugin/manifest.json" download>Figma Plugin ↓</a>
+    </nav>
+  </header>
+
+  <!-- ── Controls ─────────────────────────────────────────────── -->
+  <div class="controls">
+    <div class="control-group">
+      <label for="blurSlider">Blur</label>
+      <input type="range" id="blurSlider" min="0" max="30" step="0.5" value="5">
+      <span class="blur-val" id="blurVal">5px</span>
     </div>
+    <div class="control-group" style="margin-left:auto">
+      <span style="opacity:.5;font-size:12px">Theme:</span>
+      <div class="pill-tabs" id="themeToggle">
+        <button class="pill-tab active" data-theme="dark">Dark</button>
+        <button class="pill-tab" data-theme="light">Light</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Component selector ───────────────────────────────────── -->
+  <nav class="component-nav" id="componentNav">
+    <button class="active" data-comp="play-button">▶ Play Button</button>
+    <button data-comp="toolbar">Toolbar</button>
+    <button data-comp="tab-bar">Tab Bar</button>
+    <button data-comp="floating-bar">Floating Bar</button>
+    <button data-comp="h-container">H Container</button>
+    <button data-comp="menu">Menu</button>
+    <button data-comp="glass-card">Glass Card</button>
+  </nav>
+
+  <!-- ── Stage ────────────────────────────────────────────────── -->
+  <main class="stage" id="stage">
+    <div class="demo-area" id="demoArea">
+      <!-- Injected by script.js -->
+    </div>
+  </main>
+
+  <!-- ── Code panel ───────────────────────────────────────────── -->
+  <section style="padding: 0 40px 48px; max-width: 600px; margin: 0 auto;">
+    <div class="code-panel" id="codePanel">
+      <h3>CSS</h3>
+      <button class="copy-btn" id="copyBtn">Copy</button>
+      <pre id="codeBlock"></pre>
+    </div>
+  </section>
+
+  <!-- ── Toast ────────────────────────────────────────────────── -->
+  <div class="toast" id="toast">✓ Copied to clipboard!</div>
+
+  <script src="script.js"></script>
 </body>
 </html>
